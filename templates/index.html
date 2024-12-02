@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LTI System Simulator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 16px;
+            color: #333;
+            text-align: center;
+        }
+
+        .instructions {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-left: 4px solid #007bff;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LTI System Simulator</h1>
+        <div class="instructions">
+            <p><strong>Instructions:</strong></p>
+            <ul>
+                <li>The degree of the numerator (N(s)) must be strictly less than the degree of the denominator (D(s)).</li>
+                <li>Enter coefficients of the numerator and denominator as follows: For \(2s + 3\), enter coefficients as: 2, 3.</li>
+                <li>The main signal curves appear between 0 and the chosen time bound.</li>
+            </ul>
+        </div>
+
+        <form method="POST">
+            <!-- Simulate Button -->
+            <button type="submit">Simulate and Draw Curves</button>
+            
+            <!-- Input for Numerator Degree -->
+            <label for="degree_numerator">Degree of Numerator:</label>
+            <input type="number" id="degree_numerator" name="degree_numerator" placeholder="Enter degree (e.g., 2)" required>
+
+            <!-- Coefficients for Numerator -->
+            <label for="numerator">Numerator Coefficients:</label>
+            <input type="text" id="numerator" name="numerator" placeholder="Enter coefficients separated by spaces (e.g., 2 3)" required>
+
+            <!-- Input for Denominator Degree -->
+            <label for="degree_denominator">Degree of Denominator:</label>
+            <input type="number" id="degree_denominator" name="degree_denominator" placeholder="Enter degree (e.g., 3)" required>
+
+            <!-- Coefficients for Denominator -->
+            <label for="denominator">Denominator Coefficients:</label>
+            <input type="text" id="denominator" name="denominator" placeholder="Enter coefficients separated by spaces (e.g., 1 4 5)" required>
+
+            <!-- Time Bound -->
+            <label for="time_bound">Time Bound (seconds):</label>
+            <input type="number" id="time_bound" name="time_bound" placeholder="Enter time bound (e.g., 20)" required>
+
+            
+        </form>
+
+        <!-- Display Transfer Function -->
+        {% if transfer_function %}
+        <h2>Transfer Function:</h2>
+        <p>{{ transfer_function }}</p>
+        {% endif %}
+
+        <!-- Display Plot -->
+        {% if plot_filename %}
+        <h2>Simulation Results:</h2>
+        <img src="/static/plots/{{ plot_filename }}" alt="LTI Plots">
+        {% endif %}
+
+        <!-- Display Error Message -->
+        {% if error_message %}
+        <div class="error">
+            <p>Error: {{ error_message }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
